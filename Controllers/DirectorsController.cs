@@ -13,10 +13,18 @@ namespace FirstProject.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            var allDirectors = await _service.GetAllAsync();
-            return View(allDirectors);
+
+            var data = await _service.GetAllAsync();
+            if (search != null)
+            {
+                var result = (from s in data
+                              where s.Name.Contains(search)
+                              select s).ToList();
+                return View(result);
+            }
+            return View(data);
         }
         public IActionResult Create()
         {

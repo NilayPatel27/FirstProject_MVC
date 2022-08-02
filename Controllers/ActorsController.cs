@@ -13,9 +13,17 @@ namespace FirstProject.Controllers
             _service = service;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
+
             var data = await _service.GetAllAsync();
+            if (search != null)
+            {
+                var result = (from s in data
+                              where s.Name.Contains(search)
+                              select s).ToList();
+                return View(result);
+            }
             return View(data);
         }
         //Get request : Actors/Create
@@ -65,7 +73,7 @@ namespace FirstProject.Controllers
             return View(actorDetails);
         }
 
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);
