@@ -40,13 +40,41 @@
                         @Html.CheckBoxFor(m => m.Gender)
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
+                        <input asp-for="Hobbie" class="form-control" readonly id="Hobbie"/>
+
+                    @foreach (var error in "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller".Split(','))
+                    {
+                        <div>
+                            <input type="checkbox" value="@error" class="btn btn-outline-success float-right" itemid="@error" 
+                               onclick="hello(value);"/>
+                            @error
+                        </div>
+                        @* <div>
+                            <input type="checkbox" name="@error" value="@error" onclick="hobbies(value);" itemid="@error" />
+                            <text>@error</text>
+                            </div> *@
+                    }
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-outline-success float-right" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+var hobbies = [];
+    function hello(Value) {
+        if(hobbies.includes(Value)){
+            hobbies.splice(hobbies.indexOf(Value), 1);
+        }
+        else{
+            hobbies.push(Value);
+        }
+        let hobbies_string = hobbies.join(",");
+        console.log(hobbies, hobbies_string);
+        document.getElementById("Hobbie").value = hobbies_string.toString();
+    }
+ </script>

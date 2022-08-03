@@ -30,6 +30,7 @@ else
                         <th>@Html.DisplayNameFor(model => model.DOB)</th>
                         <th>@Html.DisplayNameFor(model => model.City)</th>
                         <th>@Html.DisplayNameFor(model => model.Gender)</th>
+                        <th>@Html.DisplayNameFor(model => model.Hobbie)</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -42,6 +43,7 @@ else
                             <td style="text-align:center">@item.DOB</td>
                             <td style="text-align:center">@item.City</td>
                             <td style="text-align:center">@item.Gender</td>
+                            <td style="text-align:center">@item.Hobbie</td>
                             <td class="align-middle" style="text-align:center">
                                 <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">
                                     <i class="bi bi-pencil-square"></i>Edit

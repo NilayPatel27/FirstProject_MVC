@@ -48,7 +48,8 @@ namespace FirstProject.Data.Services
                 DOB = x.DOB,
                 City = x.City,
                 Gender = x.Gender,
-                Name = x.Name
+                Name = x.Name,
+                Hobbie = x.Hobbie
 
             })?.FirstOrDefault();
             return result;

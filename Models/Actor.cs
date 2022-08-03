@@ -8,6 +8,7 @@ namespace FirstProject.Models
         public DateTime DOB { get; set; }
         public string? City { get; set; }
         public bool Gender { get; set; }
+        public string? Hobbie { get; set; }
 
         //Relatioships
         public ICollection<Actor_Movie>? Actors_Movies { get; set; }

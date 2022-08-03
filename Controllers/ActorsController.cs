@@ -29,10 +29,17 @@ namespace FirstProject.Controllers
         //Get request : Actors/Create
         public IActionResult Create()
         {
+            string hobbies = "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller";
+            string[] hobbiesList = hobbies.Split(",");
+            foreach (string author in hobbiesList)
+                Console.WriteLine(author);
+                ViewBag.Hobbies = hobbiesList;
+            var data = _service.GetAllAsync();
+            
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name,Age,DOB,City,Gender")] Actor actor)
+        public async Task<IActionResult> Create([Bind("Name,Age,DOB,City,Gender,Hobbie")] Actor actor)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +63,7 @@ namespace FirstProject.Controllers
             return View(actorDetails);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,DOB,City,Gender")] Actor actor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,DOB,City,Gender,Hobbie")] Actor actor)
         {
             if (!ModelState.IsValid)
             {

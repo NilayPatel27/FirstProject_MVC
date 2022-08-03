@@ -7,7 +7,7 @@
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Update a New Actor</h1>
+        <h1>Update a New Actor</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
@@ -41,6 +41,35 @@
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Hobbie" class="control-label"></label>
+                        <input asp-for="Hobbie" class="form-control" id="Hobbie" readonly />
+                        <span asp-validation-for="Hobbie" class="text-danger"></span>
+                    </div>
+
+                    @* @foreach (var item in Model.Hobbie.Split(','))
+                        {
+                        <h1>@item</h1>
+
+                        <input type="checkbox" name="@item" value="@item" checked/>
+                        } *@
+                    @foreach (var item in "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller".Split(','))
+                    {
+                        @if ((Model.Hobbie).Contains(@item))
+                        {
+                            <div>
+                            <input type="checkbox" name="@item" value="@item" checked onclick="hobbies(value);"/>
+                            <text>@item</text>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                            <input type="checkbox" name="@item" value="@item" onclick="hobbies(value);" />
+                            <text>@item</text>
+                            </div>
+                        }
+                    }
+                    <div class="form-group">
                         <input type="submit" value="Update" class="btn btn-outline-success float-right" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
@@ -49,4 +78,25 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+var Hobbie = [];
+    (() => {
+        var d = document.getElementById("Hobbie").value;
+        Hobbie = d.split(',');
+        console.log(Hobbie,'Hobbie');
+    })()
 
+    function hobbies(Value) {
+        if(Hobbie.includes(Value.trim())){
+            console.log(Hobbie.length,'length')
+            Hobbie.splice(Hobbie.indexOf(Value), 1);
+        }
+        else{
+            console.log(Hobbie.length,'length')
+            Hobbie.push(Value.trim());
+        }
+        let hobbies_string = Hobbie.join(",");
+        console.log(Hobbie, hobbies_string,'array');
+        document.getElementById("Hobbie").value = hobbies_string.toString();
+    }
+</script>
