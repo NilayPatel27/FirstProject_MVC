@@ -43,6 +43,7 @@ namespace FirstProject.Data.Services
                 Id = x.Id,
                 Age = x.Age,
                 DOB = x.DOB,
+                City = x.City,
                 Gender = x.Gender,
                 Category = x.Category,
                 Language = x.Language,

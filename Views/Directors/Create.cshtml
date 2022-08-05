@@ -11,7 +11,7 @@
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Create">
+                <form>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -51,7 +51,7 @@
                         <span asp-validation-for="Language" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
+                        <input type="submit" value="Create" class="btn btn-outline-success float-right" id="btnSubmit"/>
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>
@@ -59,4 +59,37 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+     $(document).ready(function() {  
+        $(function() {  
+            $('#btnSubmit').click(function(event) {  
+                event.preventDefault();  
+                var directorData = {  
+                    Name: $('#Name').val(),
+                    Age: $('#Age').val(),
+                    DOB: $('#DOB').val(),
+                    Gender: $('#Gender').val(),
+                    City: $('#City').val(),
+                    Category: $("#Category").val(),
+                    Language: $('#Language').val()
+                };  
+                $.ajax({  
+                    type: "POST",  
+                    url: "/Directors/Create",  
+                    data: directorData,  
+                    dataType: "html",  
+                    contentType: 'application/x-www-form-urlencoded',  
+                    success: function(data) {  
+                        window.location.href = "/Directors/Index";
+                        alert('Director Added Successfully');  
+                    },  
+                    error: function(error) {  
+                        alert("Error occured!!",error)  
+                    }  
+                });  
+            });  
+        });  
+    });   
+</script>
+
 

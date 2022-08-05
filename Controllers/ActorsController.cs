@@ -26,16 +26,11 @@ namespace FirstProject.Controllers
             }
             return View(data);
         }
+        
         //Get request : Actors/Create
         public IActionResult Create()
         {
-            string hobbies = "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller";
-            string[] hobbiesList = hobbies.Split(",");
-            foreach (string author in hobbiesList)
-                Console.WriteLine(author);
-                ViewBag.Hobbies = hobbiesList;
             var data = _service.GetAllAsync();
-            
             return View();
         }
         [HttpPost]

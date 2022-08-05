@@ -7,11 +7,11 @@
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Add a New Movie</h1>
+        <h1>Add a New Movie</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Create">
+                <form>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -52,11 +52,13 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="MovieCategory" class="control-label"></label>
-                        <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                        <select asp-for="MovieCategory" class="form-control"
+                            asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
                         <span asp-validation-for="MovieCategory" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
+                        <input type="submit" value="Create" class="btn btn-outline-success float-right"
+                            id="btnSubmit" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>
@@ -64,4 +66,36 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                var actorData = {
+                    Name: $('#Name').val(),
+                    Language: $('#Language').val(),
+                    Category: $('#Category').val(),
+                    Status: $('#Status').val(),
+                    Region: $('#Region').val(),
+                    Stars: $('#Stars').val(),
+                    ReleDate: $('#ReleDate').val(),
+                    MovieCategory: $('#MovieCategory').val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Movies/Create",
+                    data: actorData,
+                    dataType: "html",
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (data) {
+                        window.location.href = "/Movies/Index";
+                        alert('Movie Created Successfully');
+                    },
+                    error: function (error) {
+                        alert("Error occured!!", error)
+                    }
+                });
+            });
+        });
+    }); 
+</script>

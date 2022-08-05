@@ -11,52 +11,52 @@
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Edit">
+                <form>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
+                        <input asp-for="Name" class="form-control" id="Name"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Language" class="control-label"></label>
-                        <input asp-for="Language" class="form-control" />
+                        <input asp-for="Language" class="form-control" id="Language"/>
                         <span asp-validation-for="Language" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Category" class="control-label"></label>
-                        <input asp-for="Category" class="form-control" />
+                        <input asp-for="Category" class="form-control" id="Category"/>
                         <span asp-validation-for="Category" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Status" class="control-label"></label>
-                        <input asp-for="Status" class="form-control" />
+                        <input asp-for="Status" class="form-control" id="Status"/>
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Region" class="control-label"></label>
-                        <input asp-for="Region" class="form-control" />
+                        <input asp-for="Region" class="form-control" id="Region"/>
                         <span asp-validation-for="Region" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Stars" class="control-label"></label>
-                        <input asp-for="Stars" class="form-control" />
+                        <input asp-for="Stars" class="form-control" id="Stars"/>
                         <span asp-validation-for="Stars" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ReleDate" class="control-label"></label>
-                        <input asp-for="ReleDate" class="form-control" />
+                        <input asp-for="ReleDate" class="form-control" id="ReleDate"/>
                         <span asp-validation-for="ReleDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="MovieCategory" class="control-label"></label>
-                        <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                        <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()" id="MovieCategory"></select>
                         <span asp-validation-for="MovieCategory" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" id="btnSubmit" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>
@@ -64,4 +64,38 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {  
+        $(function() {  
+            $('#btnSubmit').click(function(event) {  
+                event.preventDefault();  
+                var actorData = {  
+                    Id : @Model.Id,
+                    Name: $('#Name').val(),
+                    Language: $('#Language').val(),
+                    Category: $('#Category').val(),
+                    Status: $('#Status').val(),
+                    Region: $('#Region').val(),
+                    Stars: $('#Stars').val(),
+                    ReleDate: $('#ReleDate').val(),
+                    MovieCategory: $('#MovieCategory').val()
+                };  
+                $.ajax({  
+                    type: "POST",  
+                    url: "/Movies/Edit",  
+                    data: actorData,  
+                    dataType: "html",  
+                    contentType: 'application/x-www-form-urlencoded',  
+                    success: function(data) {  
+                        window.location.href = "/Movies/Index";
+                        alert('Movie Updated Successfully'); 
+                    },  
+                    error: function(error) {  
+                        alert("Error occured!!",error)  
+                    }
+                });  
+            });  
+        });  
+    }); 
+</script>
 
