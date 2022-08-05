@@ -1,0 +1,48 @@
+﻿ @model IEnumerable<Contact>
+
+@{
+    ViewBag.Title = "Contacts";
+}
+<p>
+    @Html.ActionLink("Create New","Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.FullName
+            </td>
+            <td>
+                @item.Phone
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.Address
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+<div style="position:fixed;right:25px; bottom:25px" class="text-white">
+    <a asp-controller="Contacts" asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i>Add New</a>
+</div>

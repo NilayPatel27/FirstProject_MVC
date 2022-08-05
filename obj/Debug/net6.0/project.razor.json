@@ -16328,6 +16328,21 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Pages\\_Layout.cshtml",
+      "TargetPath": "Pages\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Contacts\\Index.cshtml",
+      "TargetPath": "Views\\Contacts\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Contacts\\Create.cshtml",
+      "TargetPath": "Views\\Contacts\\Create.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Actors\\Create.cshtml",
       "TargetPath": "Views\\Actors\\Create.cshtml",
       "FileKind": "mvc"
@@ -16345,6 +16360,16 @@
     {
       "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Movies\\Delete.cshtml",
       "TargetPath": "Views\\Movies\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Pages\\_ViewImports.cshtml",
+      "TargetPath": "Pages\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Contacts\\Delete.cshtml",
+      "TargetPath": "Views\\Contacts\\Delete.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -16398,6 +16423,16 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Pages\\Error.cshtml",
+      "TargetPath": "Pages\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Pages\\_ViewStart.cshtml",
+      "TargetPath": "Pages\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Directors\\Edit.cshtml",
       "TargetPath": "Views\\Directors\\Edit.cshtml",
       "FileKind": "mvc"
@@ -16410,6 +16445,11 @@
     {
       "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Actors\\Delete.cshtml",
       "TargetPath": "Views\\Actors\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\TGSUser135\\source\\repos\\FirstProject\\FirstProject\\Views\\Contacts\\Edit.cshtml",
+      "TargetPath": "Views\\Contacts\\Edit.cshtml",
       "FileKind": "mvc"
     }
   ],
