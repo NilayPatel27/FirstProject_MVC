@@ -80,6 +80,31 @@
                     ReleDate: $('#ReleDate').val(),
                     MovieCategory: $('#MovieCategory').val()
                 };  
+                
+                if (actorData.Name == "" || actorData.Language == "" || actorData.Category == "" || actorData.Status == "" || actorData.Region == "" || actorData.Stars == "" || actorData.ReleDate == "" || actorData.MovieCategory == "") {
+                    alert("Please fill all the fields");
+                    return false;
+                }
+                else if (Name.length <= 3) {
+                    alert("Name should be greater than 3 characters");
+                    return false;
+                }
+                else if (Language.length <= 3) {
+                    alert("Language should be greater than 3 characters");
+                    return false;
+                }
+                else if (Category.length <= 3) {
+                    alert("Category should be greater than 3 characters");
+                    return false;
+                }
+                else if (Region.length <= 3) {
+                    alert("Region should be greater than 3 characters");
+                    return false;
+                }
+                else if (Stars < 0) {
+                    alert("Stars should be greater than 0");
+                    return false;
+                }
                 $.ajax({  
                     type: "POST",  
                     url: "/Movies/Edit",  
