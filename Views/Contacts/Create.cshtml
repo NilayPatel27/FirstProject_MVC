@@ -7,8 +7,7 @@
 <h2>
     @ViewBag.Title
 </h2>
-@using (Html.BeginForm()) 
-{
+
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
@@ -22,7 +21,7 @@
 
                     <div class="form-group">
                         <label asp-for="FullName" class="control-label"></label>
-                        <input asp-for="FullName" class="form-control" id="Name" />
+                        <input asp-for="FullName" class="form-control" id="FullName" />
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -32,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Phone" class="control-label"></label>
-                        <input asp-for="Phone" class="form-control" id="DOB" />
+                        <input asp-for="Phone" class="form-control" id="Phone" />
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -50,4 +49,35 @@
         </div>
     </div>
 </div>
-}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                    var contactData = {
+                        "fullName": $('#FullName').val(),
+                        "email": $('#Email').val(),
+                        "phone": $('#Phone').val(),
+                        "address": $('#Address').val()
+                    }
+
+                    $.ajax({
+                        url: 'https://localhost:7097/api/Contacts/',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(contactData),
+                        crossDomain: true,
+                        dataType: "json",
+                        success: function (result) {
+                            alert("Contact created successfully");
+                            window.location.href = "/Contacts/Index";
+                        },
+                        error: function (result) {
+                            alert("Error updating contact", result);
+                        }
+                    });
+                
+            });
+        });
+    });
+</script>

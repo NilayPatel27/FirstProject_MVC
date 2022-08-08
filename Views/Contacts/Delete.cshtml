@@ -13,9 +13,10 @@
         <p>
         <h1>Delete Contact</h1>
         </p>
+        @* @using (Html.BeginForm())
+{ *@
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Delete">
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -41,12 +42,33 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-outline-success float-right"
+                        <input type="submit" value="Delete" class="btn btn-outline-success float-right"
                             id="btnSubmit" />
                     </div>
-
-                </form>
             </div>
         </div>
+@* } *@
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                
+                    $.ajax({
+                        url: 'https://localhost:7097/api/Contacts/' + `@Model.Id`,
+                        type: 'delete',
+                        crossDomain: true,
+                        success: function (result) {
+                            alert("Contact deleted successfully");
+                            window.location.href = "/Contacts/Index";
+                        },
+                        error: function (result) {
+                            alert("Error updating contact", result);
+                        }
+                    });
+            });
+        });
+    });
+</script>

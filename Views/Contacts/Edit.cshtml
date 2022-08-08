@@ -1,7 +1,7 @@
 @model Contact
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = ViewBag.Type;
 }
 
 <h2>
@@ -14,39 +14,137 @@
         <h1>Edit Contact</h1>
         </p>
         <div class="row">
+
             <div class="col-md-8 offset-2">
-                <form asp-action="Edit" method="patch">
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="form-group">
-                        <label asp-for="FullName" class="control-label"></label>
-                        <input asp-for="FullName" class="form-control" id="Name" />
-                        <span asp-validation-for="FullName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" id="Email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Phone" class="control-label"></label>
-                        <input asp-for="Phone" class="form-control" id="DOB" />
-                        <span asp-validation-for="Phone" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Address" class="control-label"></label>
-                        <input asp-for="Address" class="form-control" id="Address" />
-                        <span asp-validation-for="Address" class="text-danger"></span>
-                    </div>
+                <div class="form-group">
+                    <label asp-for="FullName" class="control-label"></label>
+                    <input asp-for="FullName" class="form-control" id="FullName" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" id="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" id="Phone" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" id="Address" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-outline-success float-right"
-                            id="btnSubmit" />
-                    </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-outline-success float-right" id="btnSubmit" />
+                </div>
 
-                </form>
             </div>
+
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                var type = '';
+                if (`@Model.FullName` != $('#FullName').val()
+                    && `@Model.Email` != $('#Email').val()
+                    && `@Model.Phone` != $('#Phone').val()
+                    && `@Model.Address` != $('#Address').val()) {
+                    type = 'edit';
+                }
+                else {
+                    type = 'patch';
+                }
+                
+                if (type == 'patch') {
+                    var updatedFields = [];
+
+                    if (`@Model.FullName` != $('#FullName').val()) {
+                        updatedFields.push({
+                            op: "replace",
+                            path: "FullName",
+                            value: $('#FullName').val()
+                        });
+                    }
+
+                    if (`@Model.Email` != $('#Email').val()) {
+                        updatedFields.push({
+                            op: "replace",
+                            path: "Email",
+                            value: $('#Email').val()
+                        });
+
+                    }
+
+                    if (`@Model.Phone` != $('#Phone').val()) {
+                        updatedFields.push({
+                            op: "replace",
+                            path: "Phone",
+                            value: $('#Phone').val()
+                        });
+
+                    }
+
+                    if (`@Model.Address` != $('#Address').val()) {
+                        updatedFields.push({
+                            op: "replace",
+                            path: "Address",
+                            value: $('#Address').val()
+                        });
+
+                    }
+
+                    $.ajax({
+                        url: 'https://localhost:7097/api/Contacts/' + `@Model.Id`,
+                        type: 'patch',
+                        contentType: "application/json",
+                        data: JSON.stringify(updatedFields),
+                        crossDomain: true,
+                        dataType: "json",
+                        success: function (result) {
+                            alert("Contact updated successfully");
+                            window.location.href = "/Contacts/Index";
+                        },
+                        error: function (result) {
+                            alert("Error updating contact", result);
+                        }
+                    });
+                }
+                else {
+                    var updatedFields = {
+
+                        "fullName": $('#FullName').val(),
+                        "email": $('#Email').val(),
+                        "phone": $('#Phone').val(),
+                        "address": $('#Address').val()
+                    }
+
+                    $.ajax({
+                        url: 'https://localhost:7097/api/Contacts/' + `@Model.Id`,
+                        type: 'put',
+                        contentType: "application/json",
+                        data: JSON.stringify(updatedFields),
+                        crossDomain: true,
+                        dataType: "json",
+                        success: function (result) {
+                            alert("Contact updated successfully");
+                            window.location.href = "/Contacts/Index";
+                        },
+                        error: function (result) {
+                            alert("Error updating contact", result);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
