@@ -7,7 +7,7 @@
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-        <h1>Add a New Movie</h1>
+            <h1>Add a New Movie</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
@@ -53,12 +53,12 @@
                     <div class="form-group">
                         <label asp-for="MovieCategory" class="control-label"></label>
                         <select asp-for="MovieCategory" class="form-control"
-                            asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                                asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
                         <span asp-validation-for="MovieCategory" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-outline-success float-right"
-                            id="btnSubmit" />
+                               id="btnSubmit" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>
@@ -67,10 +67,44 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(function () {
-            $('#btnSubmit').click(function (event) {
+    $(document).ready(function() {
+        $(function() {
+            $('#btnSubmit').click(function(event) {
                 event.preventDefault();
+                var Name = $("#Name").val();
+                var Language = $("#Language").val();
+                var Category = $("#Category").val();
+                var Status = $("#Status").val();
+                var Region = $("#Region").val();
+                var Stars = $("#Stars").val();
+                var ReleDate = $("#ReleDate").val();
+                var MovieCategory = $("#MovieCategory").val();
+
+                if (Name == "" || Language == "" || Category == "" || Status == "" || Region == "" || Stars == "" || ReleDate == "" || MovieCategory == "") {
+                    alert("Please fill all the fields");
+                    return false;
+                }
+                else if (Name.length <= 3) {
+                    alert("Name should be greater than 3 characters");
+                    return false;
+                }
+                else if (Language.length <= 3) {
+                    alert("Language should be greater than 3 characters");
+                    return false;
+                }
+                else if (Category.length <= 3) {
+                    alert("Category should be greater than 3 characters");
+                    return false;
+                }
+                else if (Region.length <= 3) {
+                    alert("Region should be greater than 3 characters");
+                    return false;
+                }
+                else if (Stars < 0) {
+                    alert("Stars should be greater than 0");
+                    return false;
+                }
+
                 var actorData = {
                     Name: $('#Name').val(),
                     Language: $('#Language').val(),
@@ -87,15 +121,15 @@
                     data: actorData,
                     dataType: "html",
                     contentType: 'application/x-www-form-urlencoded',
-                    success: function (data) {
+                    success: function(data) {
                         window.location.href = "/Movies/Index";
                         alert('Movie Created Successfully');
                     },
-                    error: function (error) {
+                    error: function(error) {
                         alert("Error occured!!", error)
                     }
                 });
             });
         });
-    }); 
+    });
 </script>

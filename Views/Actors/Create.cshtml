@@ -7,63 +7,60 @@
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Add a New Actor</h1>
+        <h1>Add a New Actor</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form>
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="form-group">
-                        <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" id="Name" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Age" class="control-label"></label>
-                        <input asp-for="Age" class="form-control"  id="Age"/>
-                        <span asp-validation-for="Age" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="DOB" class="control-label"></label>
-                        <input asp-for="DOB" class="form-control"  id="DOB"/>
-                        <span asp-validation-for="DOB" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="City" class="control-label"></label>
-                        <input asp-for="City" class="form-control"  id="City"/>
-                        <span asp-validation-for="City" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Gender" class="control-label"></label>
-                        <input type="checkbox"  id="Gender"/>
-                        <span asp-validation-for="Gender" class="text-danger"></span>
-                    </div>
-                    <input asp-for="Hobbie" class="form-control" readonly id="Hobbie"/>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" id="Name" />
+                </div>
 
-                    @foreach (var error in "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller".Split(','))
-                    {
-                        <div>
-                            <input type="checkbox" value="@error" class="btn btn-outline-success float-right" itemid="@error"
-                               onclick="hello(value);" />
-                            @error
-                        </div>
-                    }
-                    <div class="form-group">
-                        @* <input type="submit" value="Create" class="btn btn-outline-success float-right" /> *@
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" id="Age" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DOB" class="control-label"></label>
+                    <input asp-for="DOB" class="form-control" id="DOB" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" id="City" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Gender" class="control-label"></label>
+                    <input type="checkbox" id="Gender" />
+                </div>
+
+                <input asp-for="Hobbie" class="form-control" readonly id="Hobbie" />
+
+                @foreach (var error in "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller".Split(','))
+                {
+                    <div>
+                        <input type="checkbox" value="@error" class="btn btn-outline-success float-right" itemid="@error"
+                        onclick="hello(value);" />
+                        @error
+                    </div>
+                }
+                <div class="form-group">
+                    @* <input type="submit" value="Create" class="btn btn-outline-success float-right" /> *@
                     <input type="submit" value="Create" class="btn btn-outline-success float-right" id="btnSubmit" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
-                    </div>
-
-                </form>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-var hobbies = [];
- function hello(Value) {
+    var hobbies = [];
+    function hello(Value) {
         if (hobbies.includes(Value)) {
             hobbies.splice(hobbies.indexOf(Value), 1);
         }
@@ -74,33 +71,63 @@ var hobbies = [];
         console.log(hobbies, hobbies_string);
         document.getElementById("Hobbie").value = hobbies_string.toString();
     }
-     $(document).ready(function() {  
-        $(function() {  
-            $('#btnSubmit').click(function(event) {  
-                event.preventDefault();  
-                var actorData = {  
+
+
+    $(document).ready(function () {
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                var Name = $("#Name").val();
+                var Age = $("#Age").val();
+                var DOB = $("#DOB").val();
+                var City = $("#City").val();
+                var Gender = $("#Gender").val();
+                var Hobbie = $("#Hobbie").val();
+
+                if (Name == "" || Age == "" || DOB == "" || City == "" || Gender == "" || Hobbie == "") {
+                    alert("Please fill all the fields");
+                    return false;
+                }
+                else if (Name.length <= 3) {
+                    alert("Name should be greater than 3 characters");
+                    return false;
+                }
+                else if (Age <= 25) {
+                    alert("Age should be greater than 25");
+                    return false;
+                }
+                else if (Age >= 75) {
+                    alert("Age should be less than 75");
+                    return false;
+                }
+                else if (City.length <= 3) {
+                    alert("City should be greater than 3 characters");
+                    return false;
+                }
+
+                var actorData = {
                     Name: $('#Name').val(),
                     Age: $('#Age').val(),
                     DOB: $('#DOB').val(),
                     City: $('#City').val(),
-                    Gender:document.getElementById("Gender").checked,
-                    Hobbie : $('#Hobbie').val()
-                };  
-                $.ajax({  
-                    type: "POST",  
-                    url: "/Actors/Create",  
-                    data: actorData,  
-                    dataType: "html",  
-                    contentType: 'application/x-www-form-urlencoded',  
-                    success: function(data) {  
+                    Gender: document.getElementById("Gender").checked,
+                    Hobbie: $('#Hobbie').val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Actors/Create",
+                    data: actorData,
+                    dataType: "html",
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (data) {
                         window.location.href = "/Actors/Index";
-                        alert('Actor Added Successfully');  
-                    },  
-                    error: function(error) {  
-                        alert("Error occured!!",error)  
-                    }  
-                });  
-            });  
-        });  
-    });   
+                        alert('Actor Added Successfully');
+                    },
+                    error: function (error) {
+                        alert("Error occured!!", error)
+                    }
+                });
+            });
+        });
+    });
 </script>

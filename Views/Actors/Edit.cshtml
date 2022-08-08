@@ -102,7 +102,34 @@ var Hobbie = [];
     $(document).ready(function() {  
         $(function() {  
             $('#btnSubmit').click(function(event) {  
-                event.preventDefault();  
+                event.preventDefault(); 
+                var Name = $("#Name").val();
+                var Age = $("#Age").val();
+                var DOB = $("#DOB").val();
+                var City = $("#City").val();
+                var Gender = $("#Gender").val();
+                var Hobbie = $("#Hobbie").val();
+
+                if (Name == "" || Age == "" || DOB == "" || City == "" || Gender == "" || Hobbie == "") {
+                    alert("Please fill all the fields");
+                    return false;
+                }
+                else if (Name.length <= 3) {
+                    alert("Name should be greater than 3 characters");
+                    return false;
+                }
+                else if (Age <= 25) {
+                    alert("Age should be greater than 25");
+                    return false;
+                }
+                else if (Age >= 75) {
+                    alert("Age should be less than 75");
+                    return false;
+                }
+                else if (City.length <= 3) {
+                    alert("City should be greater than 3 characters");
+                    return false;
+                } 
                 var actorData = {  
                     Id : @Model.Id,
                     Name: $('#Name').val(),
