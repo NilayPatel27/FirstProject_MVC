@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FirstProject.Data.Services
 {
-    public class DirectorsService : BaseEntity, IDirectorsService
+    public class DirectorsService : IDirectorsService
     {
         private readonly AppDbContext _context;
         public DirectorsService(AppDbContext context)
@@ -14,7 +14,19 @@ namespace FirstProject.Data.Services
         }
         public async Task AddAsync(Director director)
         {
-            await _context.Directors.AddAsync(director);
+            Director data = new Director
+            {
+                Name = director.Name,
+                Age = director.Age,
+                DOB = director.DOB,
+                City = director.City,
+                Gender = director.Gender,
+                Category = director.Category,
+                Language = director.Language,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            await _context.Directors.AddAsync(data);
             await _context.SaveChangesAsync();
         }
 
@@ -47,7 +59,9 @@ namespace FirstProject.Data.Services
                 Gender = x.Gender,
                 Category = x.Category,
                 Language = x.Language,
-                Name = x.Name
+                Name = x.Name,
+                CreatedDate = x.CreatedDate,
+                UpdatedDate = x.UpdatedDate
 
             })?.FirstOrDefault();
             return result;
@@ -55,7 +69,20 @@ namespace FirstProject.Data.Services
 
         public Task UpdateAsync(int id, Director director)
         {
-            EntityEntry entityEntry = _context.Entry(director);
+            Director data = new Director
+            {
+                Id = director.Id,
+                Name = director.Name,
+                Age = director.Age,
+                DOB = director.DOB,
+                City = director.City,
+                Gender = director.Gender,
+                Category = director.Category,
+                Language = director.Language,
+                CreatedDate = director.CreatedDate,
+                UpdatedDate = DateTime.Now
+            };
+            EntityEntry entityEntry = _context.Entry(data);
             entityEntry.State = EntityState.Modified;
             return _context.SaveChangesAsync();
         }

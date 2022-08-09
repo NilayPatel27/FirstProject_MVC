@@ -38,20 +38,7 @@ namespace FirstProject.Controllers
                 return View(movie);
             }
 
-            Movie data = new Movie
-            {
-                Name = movie.Name,
-                Language = movie.Language,
-                Category = movie.Category,
-                Status = movie.Status,
-                Region = movie.Region,
-                Stars = movie.Stars,
-                ReleDate = movie.ReleDate,
-                MovieCategory = movie.MovieCategory,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
-            };
-            await _service.AddAsync(data);
+            await _service.AddAsync(movie);
             return RedirectToAction(nameof(Index));
         }
 
@@ -75,22 +62,8 @@ namespace FirstProject.Controllers
             {
                 return View(movie);
             }
-            Movie data = new Movie
-            {
-                Id = id,
-                Name = movie.Name,
-                Language = movie.Language,
-                Category = movie.Category,
-                Status = movie.Status,
-                Region = movie.Region,
-                Stars = movie.Stars,
-                ReleDate = movie.ReleDate,
-                MovieCategory = movie.MovieCategory,
-                CreatedDate = movie.CreatedDate,
-                UpdatedDate = DateTime.Now
-            };
 
-            await _service.UpdateAsync(id, data);
+            await _service.UpdateAsync(id, movie);
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1

@@ -17,7 +17,7 @@ namespace FirstProject.Data.Services
 
         public async Task AddAsync(Actor actor)
         {
-            Actor result = new Actor
+            Actor data = new Actor
             {
                 Name = actor.Name,
                 Age = actor.Age,
@@ -28,7 +28,7 @@ namespace FirstProject.Data.Services
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now
             };
-            await _context.Actors.AddAsync(result);
+            await _context.Actors.AddAsync(data);
             await _context.SaveChangesAsync();
         }
 
@@ -69,7 +69,19 @@ namespace FirstProject.Data.Services
 
         public Task UpdateAsync(int id, Actor newActor)
         {
-            EntityEntry entityEntry = _context.Entry(newActor);
+            Actor data = new Actor
+            {
+                Id = newActor.Id,
+                Name = newActor.Name,
+                Age = newActor.Age,
+                DOB = newActor.DOB,
+                City = newActor.City,
+                Gender = newActor.Gender,
+                Hobbie = newActor.Hobbie,
+                CreatedDate = newActor.CreatedDate,
+                UpdatedDate = DateTime.Now
+            };
+            EntityEntry entityEntry = _context.Entry(data);
             entityEntry.State = EntityState.Modified;
             return _context.SaveChangesAsync();
         }

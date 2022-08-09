@@ -41,18 +41,7 @@ namespace FirstProject.Controllers
                 return View(actor);
             }
 
-            Actor data = new Actor
-            {
-                Name = actor.Name,
-                Age = actor.Age,
-                DOB = actor.DOB,
-                City = actor.City,
-                Gender = actor.Gender,
-                Hobbie = actor.Hobbie,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
-            };
-            await _service.AddAsync(data);
+            await _service.AddAsync(actor);
             return RedirectToAction(nameof(Index));
         }
 
@@ -76,19 +65,7 @@ namespace FirstProject.Controllers
             {
                 return View(actor);
             }
-            Actor data = new Actor
-            {
-                Id = actor.Id,
-                Name = actor.Name,
-                Age = actor.Age,
-                DOB = actor.DOB,
-                City = actor.City,
-                Gender = actor.Gender,
-                Hobbie = actor.Hobbie,
-                CreatedDate = actor.CreatedDate,
-                UpdatedDate = DateTime.Now
-            };
-            await _service.UpdateAsync(id, data);
+            await _service.UpdateAsync(id, actor);
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1

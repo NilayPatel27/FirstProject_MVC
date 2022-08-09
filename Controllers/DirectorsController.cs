@@ -38,19 +38,7 @@ namespace FirstProject.Controllers
                 return View(director);
             }
 
-            Director data = new Director
-            {
-                Name = director.Name,
-                Age = director.Age,
-                DOB = director.DOB,
-                City = director.City,
-                Gender = director.Gender,
-                Category = director.Category,
-                Language = director.Language,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
-            };
-            await _service.AddAsync(data);
+            await _service.AddAsync(director);
             return RedirectToAction(nameof(Index));
         }
 
@@ -75,20 +63,7 @@ namespace FirstProject.Controllers
                 return View(director);
             }
 
-            Director data = new Director
-            {
-                Id = director.Id,
-                Name = director.Name,
-                Age = director.Age,
-                DOB = director.DOB,
-                City = director.City,
-                Gender = director.Gender,
-                Category = director.Category,
-                Language = director.Language,
-                CreatedDate = director.CreatedDate,
-                UpdatedDate = DateTime.Now
-            };
-            await _service.UpdateAsync(id, data);
+            await _service.UpdateAsync(id, director);
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1

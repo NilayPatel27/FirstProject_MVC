@@ -16,7 +16,7 @@ namespace FirstProject.Data.Services
 
         public async Task AddAsync(Movie movie)
         {
-            Movie result = new Movie
+            Movie data = new Movie
             {
                 Name = movie.Name,
                 Language = movie.Language,
@@ -29,7 +29,7 @@ namespace FirstProject.Data.Services
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now
             };
-            await _context.Movies.AddAsync(result);
+            await _context.Movies.AddAsync(data);
             await _context.SaveChangesAsync();
         }
 
@@ -73,7 +73,21 @@ namespace FirstProject.Data.Services
 
         public Task UpdateAsync(int id, Movie movie)
         {
-            EntityEntry entityEntry = _context.Entry(movie);
+            Movie data = new Movie
+            {
+                Id = id,
+                Name = movie.Name,
+                Language = movie.Language,
+                Category = movie.Category,
+                Status = movie.Status,
+                Region = movie.Region,
+                Stars = movie.Stars,
+                ReleDate = movie.ReleDate,
+                MovieCategory = movie.MovieCategory,
+                CreatedDate = movie.CreatedDate,
+                UpdatedDate = DateTime.Now
+            };
+            EntityEntry entityEntry = _context.Entry(data);
             entityEntry.State = EntityState.Modified;
             return _context.SaveChangesAsync();
         }
