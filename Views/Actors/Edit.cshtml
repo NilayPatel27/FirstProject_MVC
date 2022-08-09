@@ -137,7 +137,8 @@ var Hobbie = [];
                     DOB: $('#DOB').val(),
                     City: $('#City').val(),
                     Gender: document.getElementById("Gender").checked,
-                    Hobbie : $('#Hobbie').val()
+                    Hobbie : $('#Hobbie').val(),
+                    CreatedDate : `@Model.CreatedDate`,
                 };  
                 $.ajax({  
                     type: "POST",  

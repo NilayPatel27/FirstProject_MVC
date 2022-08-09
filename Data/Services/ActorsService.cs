@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FirstProject.Data.Services
 {
-    public class ActorsService : BaseEntity, IActorsService
+    public class ActorsService : IActorsService
     {
         private readonly AppDbContext _context;
 
@@ -17,7 +17,18 @@ namespace FirstProject.Data.Services
 
         public async Task AddAsync(Actor actor)
         {
-            await _context.Actors.AddAsync(actor);
+            Actor result = new Actor
+            {
+                Name = actor.Name,
+                Age = actor.Age,
+                DOB = actor.DOB,
+                City = actor.City,
+                Gender = actor.Gender,
+                Hobbie = actor.Hobbie,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            await _context.Actors.AddAsync(result);
             await _context.SaveChangesAsync();
         }
 
@@ -49,8 +60,9 @@ namespace FirstProject.Data.Services
                 City = x.City,
                 Gender = x.Gender,
                 Name = x.Name,
-                Hobbie = x.Hobbie
-
+                Hobbie = x.Hobbie,
+                CreatedDate = x.CreatedDate,
+                UpdatedDate = x.UpdatedDate
             })?.FirstOrDefault();
             return result;
         }

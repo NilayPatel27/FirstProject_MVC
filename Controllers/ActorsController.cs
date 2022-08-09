@@ -34,7 +34,7 @@ namespace FirstProject.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name,Age,DOB,City,Gender,Hobbie")] Actor actor)
+        public async Task<IActionResult> Create([Bind("Name,Age,DOB,City,Gender,Hobbie,CreatedDate,UpdatedDate")] Actor actor)
         {
             if (!ModelState.IsValid)
             {
@@ -58,13 +58,25 @@ namespace FirstProject.Controllers
             return View(actorDetails);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,DOB,City,Gender,Hobbie")] Actor actor)
+        public async Task<IActionResult> Edit(int id, Actor actor)
         {
             if (!ModelState.IsValid)
             {
                 return View(actor);
             }
-            await _service.UpdateAsync(id, actor);
+            Actor data = new Actor
+            {
+                Id = actor.Id,
+                Name = actor.Name,
+                Age = actor.Age,
+                DOB = actor.DOB,
+                City = actor.City,
+                Gender = actor.Gender,
+                Hobbie = actor.Hobbie,
+                CreatedDate = actor.CreatedDate,
+                UpdatedDate = DateTime.Now
+            };
+            await _service.UpdateAsync(id, data);
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1
