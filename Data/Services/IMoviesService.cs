@@ -1,5 +1,6 @@
 ﻿using FirstProject.Data.Base;
 using FirstProject.Models;
+using FirstProject.ViewModels;
 
 namespace FirstProject.Data.Services
 {
@@ -10,6 +11,8 @@ namespace FirstProject.Data.Services
         Task AddAsync(Movie movie);
         Task UpdateAsync(int id, Movie movie);
         Task DeleteAsync(int id);
+        Task<NewMovieViewModel> GetNewMovieData();
+
     }
     
 }

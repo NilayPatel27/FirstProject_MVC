@@ -56,6 +56,24 @@
                                 asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
                         <span asp-validation-for="MovieCategory" class="text-danger"></span>
                     </div>
+                        <label class="control-label">Directors</label>
+                    @foreach (var error in ViewBag.Directors)
+                {
+                    <div>
+                        <input type="checkbox" value="@error.Name" class="btn btn-outline-success float-right" itemid="@error.Name"
+                        onclick="hello(value);" />
+                        @error.Name
+                    </div>
+                }
+                        <label class="control-label">Actors</label>
+                    @foreach (var error in ViewBag.Actors)
+                {
+                    <div>
+                        <input type="checkbox" value="@error.Name" class="btn btn-outline-success float-right" itemid="@error.Name"
+                        onclick="hello(value);" />
+                        @error.Name
+                    </div>
+                }
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-outline-success float-right"
                                id="btnSubmit" />
@@ -67,6 +85,18 @@
     </div>
 </div>
 <script type="text/javascript">
+ var hobbies = [];
+    function hello(Value) {
+        if (hobbies.includes(Value)) {
+            hobbies.splice(hobbies.indexOf(Value), 1);
+        }
+        else {
+            hobbies.push(Value);
+        }
+        let hobbies_string = hobbies.join(",");
+        console.log(hobbies, hobbies_string);
+        document.getElementById("Hobbie").value = hobbies_string.toString();
+    }
     $(document).ready(function() {
         $(function() {
             $('#btnSubmit').click(function(event) {

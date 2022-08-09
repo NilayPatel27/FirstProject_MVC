@@ -1,5 +1,6 @@
 ﻿using FirstProject.Data.Base;
 using FirstProject.Models;
+using FirstProject.ViewModels;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -90,6 +91,17 @@ namespace FirstProject.Data.Services
             EntityEntry entityEntry = _context.Entry(data);
             entityEntry.State = EntityState.Modified;
             return _context.SaveChangesAsync();
+        }
+
+        public async Task<NewMovieViewModel> GetNewMovieData()
+        {
+            var response = new NewMovieViewModel()
+            {
+                Actors = await _context.Actors.OrderBy(n => n.Name).ToListAsync(),
+                Directors = await _context.Directors.OrderBy(n => n.Name).ToListAsync()
+            };
+
+            return response;
         }
     }
 }

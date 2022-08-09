@@ -26,8 +26,11 @@ namespace FirstProject.Controllers
             }
             return View(data);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var movieDropdownData = await _service.GetNewMovieData();
+            ViewBag.Directors = movieDropdownData.Directors;
+            ViewBag.Actors = movieDropdownData.Actors;
             return View();
         }
         [HttpPost]
