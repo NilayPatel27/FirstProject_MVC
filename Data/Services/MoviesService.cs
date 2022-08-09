@@ -16,7 +16,20 @@ namespace FirstProject.Data.Services
 
         public async Task AddAsync(Movie movie)
         {
-            await _context.Movies.AddAsync(movie);
+            Movie result = new Movie
+            {
+                Name = movie.Name,
+                Language = movie.Language,
+                Category = movie.Category,
+                Status = movie.Status,
+                Region = movie.Region,
+                Stars = movie.Stars,
+                ReleDate = movie.ReleDate,
+                MovieCategory = movie.MovieCategory,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            await _context.Movies.AddAsync(result);
             await _context.SaveChangesAsync();
         }
 
@@ -50,7 +63,9 @@ namespace FirstProject.Data.Services
                 Stars = x.Stars,
                 ReleDate = x.ReleDate,
                 MovieCategory = x.MovieCategory,
-                Name = x.Name
+                Name = x.Name,
+                CreatedDate = x.CreatedDate,
+                UpdatedDate = x.UpdatedDate
 
             })?.FirstOrDefault();
             return result;

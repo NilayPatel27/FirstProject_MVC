@@ -20,7 +20,7 @@ namespace FirstProject.Controllers
             if (search != null)
             {
                 var result = (from s in data
-                              where s.Name.Contains(search)
+                              where s.Name.ToLower().Contains(search.ToLower())
                               select s).ToList();
                 return View(result);
             }
@@ -31,13 +31,26 @@ namespace FirstProject.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name,Age,DOB,City,Gender,Category,Language")] Director director)
+        public async Task<IActionResult> Create(Director director)
         {
             if (!ModelState.IsValid)
             {
                 return View(director);
             }
-            await _service.AddAsync(director);
+
+            Director data = new Director
+            {
+                Name = director.Name,
+                Age = director.Age,
+                DOB = director.DOB,
+                City = director.City,
+                Gender = director.Gender,
+                Category = director.Category,
+                Language = director.Language,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            await _service.AddAsync(data);
             return RedirectToAction(nameof(Index));
         }
 
@@ -55,13 +68,27 @@ namespace FirstProject.Controllers
             return View(moviesDetails);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,DOB,City,Gender,Category,Language")] Director director)
+        public async Task<IActionResult> Edit(int id, Director director)
         {
             if (!ModelState.IsValid)
             {
                 return View(director);
             }
-            await _service.UpdateAsync(id, director);
+
+            Director data = new Director
+            {
+                Id = director.Id,
+                Name = director.Name,
+                Age = director.Age,
+                DOB = director.DOB,
+                City = director.City,
+                Gender = director.Gender,
+                Category = director.Category,
+                Language = director.Language,
+                CreatedDate = director.CreatedDate,
+                UpdatedDate = DateTime.Now
+            };
+            await _service.UpdateAsync(id, data);
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1

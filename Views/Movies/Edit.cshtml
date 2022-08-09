@@ -78,7 +78,8 @@
                     Region: $('#Region').val(),
                     Stars: $('#Stars').val(),
                     ReleDate: $('#ReleDate').val(),
-                    MovieCategory: $('#MovieCategory').val()
+                    MovieCategory: $('#MovieCategory').val(),
+                    CreatedDate : `@Model.CreatedDate`,
                 };  
                 
                 if (actorData.Name == "" || actorData.Language == "" || actorData.Category == "" || actorData.Status == "" || actorData.Region == "" || actorData.Stars == "" || actorData.ReleDate == "" || actorData.MovieCategory == "") {

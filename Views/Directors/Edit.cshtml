@@ -70,7 +70,8 @@
                     City: $('#City').val(),
                     Gender :  document.getElementById("Gender").checked,
                     Category : $('#Category').val(),
-                    Language : $('#Language').val()
+                    Language : $('#Language').val(),
+                    CreatedDate : `@Model.CreatedDate`
                 };  
                 if (directorData.Name == "" || directorData.Age == "" || directorData.DOB == "" || directorData.Gender == "" || directorData.City == "" || directorData.Category == "" || directorData.Language == "") {
                     alert("Please fill all the fields");

@@ -20,7 +20,7 @@ namespace FirstProject.Controllers
             if (search != null)
             {
                 var result = (from s in data
-                              where s.Name.Contains(search)
+                              where s.Name.ToLower().Contains(search.ToLower())
                               select s).ToList();
                 return View(result);
             }
@@ -34,13 +34,25 @@ namespace FirstProject.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name,Age,DOB,City,Gender,Hobbie,CreatedDate,UpdatedDate")] Actor actor)
+        public async Task<IActionResult> Create(Actor actor)
         {
             if (!ModelState.IsValid)
             {
                 return View(actor);
             }
-            await _service.AddAsync(actor);
+
+            Actor data = new Actor
+            {
+                Name = actor.Name,
+                Age = actor.Age,
+                DOB = actor.DOB,
+                City = actor.City,
+                Gender = actor.Gender,
+                Hobbie = actor.Hobbie,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            await _service.AddAsync(data);
             return RedirectToAction(nameof(Index));
         }
 

@@ -31,13 +31,27 @@ namespace FirstProject.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name,Language,Category,Status,Region,Stars,ReleDate,MovieCategory")] Movie movie)
+        public async Task<IActionResult> Create(Movie movie)
         {
             if (!ModelState.IsValid)
             {
                 return View(movie);
             }
-            await _service.AddAsync(movie);
+
+            Movie data = new Movie
+            {
+                Name = movie.Name,
+                Language = movie.Language,
+                Category = movie.Category,
+                Status = movie.Status,
+                Region = movie.Region,
+                Stars = movie.Stars,
+                ReleDate = movie.ReleDate,
+                MovieCategory = movie.MovieCategory,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            await _service.AddAsync(data);
             return RedirectToAction(nameof(Index));
         }
 
@@ -55,13 +69,28 @@ namespace FirstProject.Controllers
             return View(moviesDetails);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Language,Category,Status,Region,Stars,ReleDate,MovieCategory")] Movie movie)
+        public async Task<IActionResult> Edit(int id, Movie movie)
         {
             if (!ModelState.IsValid)
             {
                 return View(movie);
             }
-            await _service.UpdateAsync(id, movie);
+            Movie data = new Movie
+            {
+                Id = id,
+                Name = movie.Name,
+                Language = movie.Language,
+                Category = movie.Category,
+                Status = movie.Status,
+                Region = movie.Region,
+                Stars = movie.Stars,
+                ReleDate = movie.ReleDate,
+                MovieCategory = movie.MovieCategory,
+                CreatedDate = movie.CreatedDate,
+                UpdatedDate = DateTime.Now
+            };
+
+            await _service.UpdateAsync(id, data);
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1
