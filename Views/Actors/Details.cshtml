@@ -43,11 +43,23 @@
                     }
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
                     <label asp-for="Hobbie" class="control-label"></label>
                     <input asp-for="Hobbie" class="form-control" readonly />
                     <span asp-validation-for="Hobbie" class="text-danger"></span>
                 </div>
+                    <h5>Movies</h5>
+                @if (@ViewBag.Movies.Count >0)
+                {
+                    @foreach (var item in @ViewBag.Movies)
+                    {
+                        <div class="form-group">@item.Name</div>
+                    }
+                }
+                else{
+                    <div class="form-group">No movies</div>
+                }
+
                 <div class="form-group">
                     <a class="btn btn-outline-success float-right" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                     <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>

@@ -15,9 +15,9 @@ namespace FirstProject.Data.Services
             _context = context;
         }
 
-        public async Task AddAsync(Movie movie)
+        public async Task AddAsync(NewMovieVM movie)
         {
-            Movie data = new Movie
+            Movie newMovie = new Movie
             {
                 Name = movie.Name,
                 Language = movie.Language,
@@ -28,16 +28,45 @@ namespace FirstProject.Data.Services
                 ReleDate = movie.ReleDate,
                 MovieCategory = movie.MovieCategory,
                 CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = DateTime.Now,
+                ActorIds = movie.ActorIds,
+                DirectorIds = movie.DirectorIds
             };
-            await _context.Movies.AddAsync(data);
+            await _context.Movies.AddAsync(newMovie);
             await _context.SaveChangesAsync();
+
+            foreach (var actorId in movie.ActorIds.Split(','))
+            {
+                Actor_Movie actorMovie = new Actor_Movie
+                {
+                    ActorId = int.Parse(actorId),
+                    MovieId = newMovie.Id
+                };
+                await _context.Actors_Movies.AddAsync(actorMovie);
+            }
+            await _context.SaveChangesAsync();
+
+            foreach (var directorId in movie.DirectorIds.Split(','))
+            {
+                Movie_Director movieDirector = new Movie_Director
+                {
+                    MovieId = newMovie.Id,
+                    DirectorId = int.Parse(directorId)
+                };
+                await _context.Movies_Directors.AddAsync(movieDirector);
+            }
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task DeleteAsync(int id)
         {
             var result = await _context.Movies.FirstOrDefaultAsync(n => n.Id == id);
             _context.Movies.Remove(result);
+            await _context.SaveChangesAsync();
+
+            var result2 = await _context.Actors_Movies.Where(n => n.MovieId == id).ToListAsync();
+            _context.Actors_Movies.RemoveRange(result2);
             await _context.SaveChangesAsync();
         }
 
@@ -66,8 +95,9 @@ namespace FirstProject.Data.Services
                 MovieCategory = x.MovieCategory,
                 Name = x.Name,
                 CreatedDate = x.CreatedDate,
-                UpdatedDate = x.UpdatedDate
-
+                UpdatedDate = x.UpdatedDate,
+                ActorIds = x.ActorIds,
+                DirectorIds = x.DirectorIds
             })?.FirstOrDefault();
             return result;
         }
@@ -86,7 +116,9 @@ namespace FirstProject.Data.Services
                 ReleDate = movie.ReleDate,
                 MovieCategory = movie.MovieCategory,
                 CreatedDate = movie.CreatedDate,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = DateTime.Now,
+                ActorIds = movie.ActorIds,
+                DirectorIds = movie.DirectorIds
             };
             EntityEntry entityEntry = _context.Entry(data);
             entityEntry.State = EntityState.Modified;

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Movie>
-
 @{
     ViewData["Title"] = "List of Movies";
 }
@@ -7,7 +6,6 @@
 {
     @Html.TextBox("search")
     <input type="submit" name="submit" value="Search" />
-
 }
 @if (Model.Count() == 0)
 {
@@ -20,45 +18,66 @@
 }
 else
 {
-<div class="row" style="width:100%;">
-    <div style="width:100%">
-        <table class="table">
-            <thead>
-                <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Language)</th>
-                    <th>@Html.DisplayNameFor(model => model.Category)</th>
-                    <th>@Html.DisplayNameFor(model => model.Status)</th>
-                    <th>@Html.DisplayNameFor(model => model.Region)</th>
-                    <th>@Html.DisplayNameFor(model => model.Stars)</th>
-                    <th>@Html.DisplayNameFor(model => model.ReleDate)</th>
-                    <th>@Html.DisplayNameFor(model => model.MovieCategory)</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr style="background-color:#fff;">
-                        <td style="text-align:center">@item.Name</td>
-                        <td style="text-align:center">@item.Language</td>
-                        <td style="text-align:center">@item.Category</td>
-                        <td style="text-align:center">@item.Status</td>
-                        <td style="text-align:center">@item.Region</td>
-                        <td style="text-align:center">@item.Stars</td>
-                        <td style="text-align:center">@item.ReleDate</td>
-                        <td style="text-align:center">@item.MovieCategory</td>
-                        <td class="align-middle" style="text-align:center">
-                            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit </a> |
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details </a> |
-                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete </a>
-                        </td>
+    <div style="width:100%;">
+        <div style="width:100%">
+            <table class="table mt-2">
+                <thead>
+                    <tr class="text-center">
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Language)</th>
+                        <th>@Html.DisplayNameFor(model => model.Category)</th>
+                        <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        <th>@Html.DisplayNameFor(model => model.Region)</th>
+                        <th>@Html.DisplayNameFor(model => model.Stars)</th>
+                        <th>@Html.DisplayNameFor(model => model.ReleDate)</th>
+                        <th>@Html.DisplayNameFor(model => model.MovieCategory)</th>
+                        <th>@Html.DisplayNameFor(model => model.ActorIds)</th>
+                        <th>@Html.DisplayNameFor(model => model.DirectorIds)</th>
+                        <th>Options</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr style="background-color:#fff;">
+                            <td style="text-align:center">@item.Name</td>
+                            <td style="text-align:center">@item.Language</td>
+                            <td style="text-align:center">@item.Category</td>
+                            @if (@item.Status)
+                            {
+                                <td style="text-align:center;text-color:green">Active</td>
+                            }
+                            else
+                            {
+                                <td style="text-align:center">Inactive</td>
+                            }
+                            <td style="text-align:center">@item.Region</td>
+                            <td style="text-align:center">@item.Stars</td>
+                            <td style="text-align:center">@item.ReleDate</td>
+                            <td style="text-align:center">@item.MovieCategory</td>
+                            <td style="text-align:center">@item.ActorIds</td>
+                            <td style="text-align:center">@item.DirectorIds</td>
+                            <td class="align-middle" style="text-align:center">
+                                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i
+                                class="bi bi-pencil-square"></i>Edit </a> |
+                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i
+                                class="bi bi-eye"></i>Details </a> |
+                                <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i
+                                class="bi bi-trash"></i>Delete </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+
+
+
+
+
+
 }
 <div style="position:fixed;right:25px; bottom:25px" class="text-white">
     <a asp-controller="Movies" asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i>Add New</a>

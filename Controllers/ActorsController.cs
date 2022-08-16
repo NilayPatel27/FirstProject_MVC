@@ -1,16 +1,20 @@
 ﻿using FirstProject.Data.Services;
+using FirstProject.Hubs;
 using FirstProject.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FirstProject.Controllers
 {
     public class ActorsController : Controller
     {
         private readonly IActorsService _service;
-
-        public ActorsController(IActorsService service)
+        private readonly IHubContext<NotificationHub> _hubContext;
+        public ActorsController(IActorsService service, IHubContext<NotificationHub> hubContext)
         {
             _service = service;
+            _hubContext = hubContext;
         }
 
         public async Task<IActionResult> Index(string search)
@@ -26,7 +30,7 @@ namespace FirstProject.Controllers
             }
             return View(data);
         }
-        
+
         //Get request : Actors/Create
         public IActionResult Create()
         {
@@ -42,6 +46,7 @@ namespace FirstProject.Controllers
             }
 
             await _service.AddAsync(actor);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", actor.Name, "has been added, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
 
@@ -49,6 +54,8 @@ namespace FirstProject.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var actorDetails = await _service.GetByIdAsync(id);
+            var movieDetails = await _service.ActorsMoviesViewModelAsync(id);
+            ViewBag.Movies = movieDetails.Movies;
             if (actorDetails == null) return View("NotFound");
             return View(actorDetails);
         }
@@ -66,6 +73,7 @@ namespace FirstProject.Controllers
                 return View(actor);
             }
             await _service.UpdateAsync(id, actor);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", actor.Name, "has been updated, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1
@@ -83,6 +91,7 @@ namespace FirstProject.Controllers
             if (actorDetails == null) return View("NotFound");
 
             await _service.DeleteAsync(id);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", actorDetails.Name, "has been deleted, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
 

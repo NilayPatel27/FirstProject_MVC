@@ -1,6 +1,7 @@
 global using FirstProject.Data;
 global using Microsoft.EntityFrameworkCore;
 using FirstProject.Data.Services;
+using FirstProject.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -9,6 +10,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 builder.Services.AddScoped<IActorsService, ActorsService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<IDirectorsService, DirectorsService>();
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -24,6 +27,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.MapHub<NotificationHub>("/NotificationHub");
 
 app.MapControllerRoute(
     name: "default",

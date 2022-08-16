@@ -1,16 +1,22 @@
 ﻿using FirstProject.Data.Services;
+using FirstProject.Hubs;
 using FirstProject.Models;
+using FirstProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FirstProject.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public MoviesController(IMoviesService service)
+
+        public MoviesController(IMoviesService service, IHubContext<NotificationHub> hubContext)
         {
             _service = service;
+            _hubContext = hubContext;
         }
 
         public async Task<IActionResult> Index(string search)
@@ -34,14 +40,18 @@ namespace FirstProject.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Movie movie)
+        public async Task<IActionResult> Create(NewMovieVM movie)
         {
             if (!ModelState.IsValid)
             {
+                var movieDropdownData = await _service.GetNewMovieData();
+                ViewBag.Directors = movieDropdownData.Directors;
+                ViewBag.Actors = movieDropdownData.Actors;
                 return View(movie);
             }
 
             await _service.AddAsync(movie);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "New movie has been added, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
 
@@ -54,6 +64,9 @@ namespace FirstProject.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
+            var movieDropdownData = await _service.GetNewMovieData();
+            ViewBag.Directors = movieDropdownData.Directors;
+            ViewBag.Actors = movieDropdownData.Actors;
             var moviesDetails = await _service.GetByIdAsync(id);
             if (moviesDetails == null) return View("NotFound");
             return View(moviesDetails);
@@ -63,10 +76,14 @@ namespace FirstProject.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var movieDropdownData = await _service.GetNewMovieData();
+                ViewBag.Directors = movieDropdownData.Directors;
+                ViewBag.Actors = movieDropdownData.Actors;
                 return View(movie);
             }
 
             await _service.UpdateAsync(id, movie);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", movie.Name ,"has been updated, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1
@@ -84,6 +101,7 @@ namespace FirstProject.Controllers
             if (moviesDetails == null) return View("NotFound");
 
             await _service.DeleteAsync(id);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Movie has been deleted, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
     }

@@ -46,7 +46,14 @@ else
                             <td style="text-align:center">@item.Category</td>
                             <td style="text-align:center">@item.DOB</td>
                             <td style="text-align:center">@item.City</td>
-                            <td style="text-align:center">@item.Gender</td>
+                            @if(@item.Gender == true)
+                            {
+                            <td style="text-align:center">Male</td>
+                            }
+                            else{
+                            <td style="text-align:center">Female</td>
+
+                            }
                             <td style="text-align:center">@item.Category</td>
                             <td style="text-align:center">@item.Language</td>
                             <td class="align-middle" style="text-align:center">

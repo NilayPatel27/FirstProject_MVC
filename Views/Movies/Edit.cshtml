@@ -7,7 +7,7 @@
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Update a New Movie</h1>
+        <h1>Update a New Movie</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-2">
@@ -17,46 +17,124 @@
 
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" id="Name"/>
+                        <input asp-for="Name" class="form-control" id="Name" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Language" class="control-label"></label>
-                        <input asp-for="Language" class="form-control" id="Language"/>
+                        <input asp-for="Language" class="form-control" id="Language" />
                         <span asp-validation-for="Language" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Category" class="control-label"></label>
-                        <input asp-for="Category" class="form-control" id="Category"/>
+                        <input asp-for="Category" class="form-control" id="Category" />
                         <span asp-validation-for="Category" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Status" class="control-label"></label>
-                        <input asp-for="Status" class="form-control" id="Status"/>
+                         @Html.CheckBoxFor(m => m.Status,new { id="Status"})
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Region" class="control-label"></label>
-                        <input asp-for="Region" class="form-control" id="Region"/>
+                        <input asp-for="Region" class="form-control" id="Region" />
                         <span asp-validation-for="Region" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Stars" class="control-label"></label>
-                        <input asp-for="Stars" class="form-control" id="Stars"/>
+                        <input asp-for="Stars" class="form-control" id="Stars" />
                         <span asp-validation-for="Stars" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ReleDate" class="control-label"></label>
-                        <input asp-for="ReleDate" class="form-control" id="ReleDate"/>
+                        <input asp-for="ReleDate" class="form-control" id="ReleDate" />
                         <span asp-validation-for="ReleDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="MovieCategory" class="control-label"></label>
-                        <select asp-for="MovieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()" id="MovieCategory"></select>
+                        <select asp-for="MovieCategory" class="form-control"
+                            asp-items="Html.GetEnumSelectList<MovieCategory>()" id="MovieCategory"></select>
                         <span asp-validation-for="MovieCategory" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-outline-success float-right" id="btnSubmit" />
+                        <label asp-for="ActorIds" class="control-label"></label>
+                        <input asp-for="ActorIds" class="form-control" id="ActorIds" readonly />
+                        <span asp-validation-for="ActorIds" class="text-danger"></span>
+                    </div>
+                    @if (@Model?.ActorIds?.Split(',').Length > 0)
+                    {
+                        @foreach (var item in ViewBag.Actors)
+                        {
+                            @if ((Model.ActorIds).Contains(@item.Id.ToString()))
+                            {
+                                <div>
+                                    <input type="checkbox" name="@item.Name" value="@item.Name" checked
+                            onclick="updateActors(@item.Id.ToString());" />
+                                    <text>@item.Name</text>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <input type="checkbox" name="@item.Name" value="@item.Name"
+                            onclick="updateActors(@item.Id.ToString());" />
+                                    <text>@item.Name</text>
+                                </div>
+                            }
+                        }
+                    }
+                    else{
+                        @foreach (var item in ViewBag.Actors)
+                        {
+                            <div>
+                                <input type="checkbox" name="@item.Name" value="@item.Name"
+                            onclick="updateActors(@item.Id.ToString());" />
+                                <text>@item.Name</text>
+                            </div>
+                        }
+                    }
+
+                    <div class="form-group">
+                        <label asp-for="DirectorIds" class="control-label"></label>
+                        <input asp-for="DirectorIds" class="form-control" id="DirectorIds" readonly />
+                        <span asp-validation-for="DirectorIds" class="text-danger"></span>
+                    </div>
+                    @if (@Model?.DirectorIds?.Split(',').Length > 0)
+                    {
+                        @foreach (var item in ViewBag.Directors)
+                        {
+                            @if ((Model.DirectorIds).Contains(@item.Id.ToString()))
+                            {
+                                <div>
+                                    <input type="checkbox" name="@item.Name" value="@item.Name" checked
+                            onclick="updateDirectors(@item.Id.ToString());" />
+                                    <text>@item.Name</text>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <input type="checkbox" name="@item.Name" value="@item.Name"
+                            onclick="updateDirectors(@item.Id.ToString());" />
+                                    <text>@item.Name</text>
+                                </div>
+                            }
+                        }
+                    }
+                    else{
+                        @foreach (var item in ViewBag.Directors)
+                        {
+                            <div>
+                                <input type="checkbox" name="@item.Name" value="@item.Name"
+                            onclick="updateDirectors(@item.Id.ToString());" />
+                                <text>@item.Name</text>
+                            </div>
+                        }
+                    }
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right"
+                            id="btnSubmit" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
                     </div>
                 </form>
@@ -65,24 +143,59 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {  
-        $(function() {  
-            $('#btnSubmit').click(function(event) {  
-                event.preventDefault();  
-                var actorData = {  
-                    Id : @Model.Id,
+    var Actors = [];
+    var Directors = [];
+
+    (() => {
+        var a = document.getElementById("ActorIds").value;
+        Actors = a.split(',');
+
+        var d = document.getElementById("DirectorIds").value;
+        Directors = d.split(',');
+    })()
+
+    function updateActors(Value) {
+        if (Actors.includes(Value.toString())) {
+            Actors.splice(Actors.indexOf(Value.toString()), 1);
+        }
+        else {
+            Actors.push(Value.toString());
+        }
+        let actors_string = Actors.join(",");
+        document.getElementById("ActorIds").value = actors_string.toString();
+    }
+
+    function updateDirectors(Value) {
+        if (Directors.includes(Value.toString())) {
+            Directors.splice(Directors.indexOf(Value.toString()), 1);
+        }
+        else {
+            Directors.push(Value.toString());
+        }
+        let directors_string = Directors.join(",");
+        document.getElementById("DirectorIds").value = directors_string.toString();
+    }
+
+    $(document).ready(function () {
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();
+                var actorData = {
+                    Id: @Model.Id,
                     Name: $('#Name').val(),
                     Language: $('#Language').val(),
                     Category: $('#Category').val(),
-                    Status: $('#Status').val(),
+                    Status: document.getElementById("Status").checked,
                     Region: $('#Region').val(),
                     Stars: $('#Stars').val(),
                     ReleDate: $('#ReleDate').val(),
                     MovieCategory: $('#MovieCategory').val(),
-                    CreatedDate : `@Model.CreatedDate`,
-                };  
-                
-                if (actorData.Name == "" || actorData.Language == "" || actorData.Category == "" || actorData.Status == "" || actorData.Region == "" || actorData.Stars == "" || actorData.ReleDate == "" || actorData.MovieCategory == "") {
+                    CreatedDate: `@Model.CreatedDate`,
+                    ActorIds: $('#ActorIds').val(),
+                    DirectorIds: $('#DirectorIds').val()
+                };
+
+                if (actorData.Name == "" || actorData.Language == "" || actorData.Category == "" || actorData.Region == "" || actorData.Stars == "" || actorData.ReleDate == "" || actorData.MovieCategory == "") {
                     alert("Please fill all the fields");
                     return false;
                 }
@@ -106,22 +219,31 @@
                     alert("Stars should be greater than 0");
                     return false;
                 }
-                $.ajax({  
-                    type: "POST",  
-                    url: "/Movies/Edit",  
-                    data: actorData,  
-                    dataType: "html",  
-                    contentType: 'application/x-www-form-urlencoded',  
-                    success: function(data) {  
+                else if (actorData.ActorIds == "")
+                {
+                    alert("Please select atleast one actor");
+                    return false;
+                }
+                else if (actorData.DirectorIds == "")
+                {
+                    alert("Please select atleast one director");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Movies/Edit",
+                    data: actorData,
+                    dataType: "html",
+                    contentType: 'application/x-www-form-urlencoded',
+                    success: function (data) {
                         window.location.href = "/Movies/Index";
-                        alert('Movie Updated Successfully'); 
-                    },  
-                    error: function(error) {  
-                        alert("Error occured!!",error)  
+                        alert('Movie Updated Successfully');
+                    },
+                    error: function (error) {
+                        alert("Error occured!!", error)
                     }
-                });  
-            });  
-        });  
+                });
+            });
+        });
     }); 
 </script>
-

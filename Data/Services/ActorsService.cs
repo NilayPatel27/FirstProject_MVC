@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using FirstProject.Data.Base;
 using FirstProject.Models;
+using FirstProject.ViewModels;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -64,7 +65,17 @@ namespace FirstProject.Data.Services
                 CreatedDate = x.CreatedDate,
                 UpdatedDate = x.UpdatedDate
             })?.FirstOrDefault();
+            
             return result;
+        }
+        public async Task<ActorsMoviesViewModel> ActorsMoviesViewModelAsync(int id)
+        {
+            var response = new ActorsMoviesViewModel()
+            {
+                Movies = await _context.Movies.Where(n => n.ActorIds.Contains(id.ToString())).ToListAsync()
+            };
+
+            return response;
         }
 
         public Task UpdateAsync(int id, Actor newActor)

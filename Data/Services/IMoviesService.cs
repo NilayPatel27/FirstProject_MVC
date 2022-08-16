@@ -8,7 +8,7 @@ namespace FirstProject.Data.Services
     {
         Task<IEnumerable<Movie>> GetAllAsync();
         Task<Movie> GetByIdAsync(int id);
-        Task AddAsync(Movie movie);
+        Task AddAsync(NewMovieVM movie);
         Task UpdateAsync(int id, Movie movie);
         Task DeleteAsync(int id);
         Task<NewMovieViewModel> GetNewMovieData();

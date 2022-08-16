@@ -57,24 +57,45 @@
                         <span asp-validation-for="MovieCategory" class="text-danger"></span>
                     </div>
                         <label class="control-label">Directors</label>
-                    @foreach (var error in ViewBag.Directors)
-                {
-                    <div>
-                        <input type="checkbox" value="@error.Name" class="btn btn-outline-success float-right" itemid="@error.Name"
-                        onclick="hello(value);" />
-                        @error.Name
-                    </div>
-                }
+                        <input class="form-control" readonly id="Directors" hidden/>
+
+                        @if(@ViewBag.Directors.Count >0)
+                        {
+                            @foreach (var error in ViewBag.Directors)
+                            {
+                                <div>
+                                    <input type="checkbox" value="@error.Id" class="btn btn-outline-success float-right" itemid="@error.Id"
+                                    onclick="addDirector(value);" />
+                                    @error.Name
+                                </div>
+                            }
+                        }
+                        else{
+                            <div class="text-white">
+                                    <a asp-controller="Directors" asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i>Please add Director first</a>
+                            </div>
+                        }
+
                         <label class="control-label">Actors</label>
-                    @foreach (var error in ViewBag.Actors)
-                {
-                    <div>
-                        <input type="checkbox" value="@error.Name" class="btn btn-outline-success float-right" itemid="@error.Name"
-                        onclick="hello(value);" />
-                        @error.Name
-                    </div>
-                }
-                    <div class="form-group">
+                        <input class="form-control" readonly id="Actors" hidden/>
+
+                        @if(@ViewBag.Actors.Count >0)
+                        {
+                            @foreach (var error in ViewBag.Actors)
+                            {
+                                <div>
+                                    <input type="checkbox" value="@error.Id" class="btn btn-outline-success float-right" itemid="@error.Id"
+                                    onclick="addActors(value);" />
+                                    @error.Name
+                                </div>
+                            }
+                        }
+                        else{
+                            <div class="text-white">
+                                <a asp-controller="Actors" asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i>Please add Actor first</a>
+                            </div>
+                        }
+                    <div class="form-group pt-2" >
                         <input type="submit" value="Create" class="btn btn-outline-success float-right"
                                id="btnSubmit" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
@@ -85,6 +106,34 @@
     </div>
 </div>
 <script type="text/javascript">
+
+var directors = [];
+var actors = [];
+
+    const addDirector = (Value) => {
+        if (directors.includes(Value)) {
+            directors.splice(directors.indexOf(Value), 1);
+        }
+        else {
+            directors.push(Value);
+        }
+        let directors_string = directors.join(",");
+        console.log(directors, directors_string);
+        document.getElementById("Directors").value = directors_string.toString();
+    }
+
+    const addActors = (Value) => {
+        if (actors.includes(Value)) {
+            actors.splice(actors.indexOf(Value), 1);
+        }
+        else {
+            actors.push(Value);
+        }
+        let actors_string = actors.join(",");
+        console.log(actors, actors_string);
+        document.getElementById("Actors").value = actors_string.toString();
+    }
+
  var hobbies = [];
     function hello(Value) {
         if (hobbies.includes(Value)) {
@@ -109,6 +158,8 @@
                 var Stars = $("#Stars").val();
                 var ReleDate = $("#ReleDate").val();
                 var MovieCategory = $("#MovieCategory").val();
+                var Actors = $("#Actors").val();
+                var Directors = $("#Directors").val();
 
                 if (Name == "" || Language == "" || Category == "" || Status == "" || Region == "" || Stars == "" || ReleDate == "" || MovieCategory == "") {
                     alert("Please fill all the fields");
@@ -134,6 +185,16 @@
                     alert("Stars should be greater than 0");
                     return false;
                 }
+                else if(Actors.length <= 0)
+                {
+                    alert("Please add atleast one actor");
+                    return false;
+                }
+                else if(Directors.length <= 0)
+                {
+                    alert("Please add atleast one director");
+                    return false;
+                }
 
                 var actorData = {
                     Name: $('#Name').val(),
@@ -143,7 +204,9 @@
                     Region: $('#Region').val(),
                     Stars: $('#Stars').val(),
                     ReleDate: $('#ReleDate').val(),
-                    MovieCategory: $('#MovieCategory').val()
+                    MovieCategory: $('#MovieCategory').val(),
+                    DirectorIds : $("#Directors").val(),
+                    ActorIds : $("#Actors").val(),
                 };
                 $.ajax({
                     type: "POST",

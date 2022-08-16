@@ -15,8 +15,11 @@ namespace FirstProject.Models
 
         //Relatioships
 
-        public ICollection<Actor_Movie>? Actors_Movies { get; set; }
-        public ICollection<Movie_Director>? Movies_Directors { get; set; }
+        public List<Actor_Movie>? Actors_Movies { get; set; }
+        public List<Movie_Director>? Movies_Directors { get; set; }
+
+        public string? DirectorIds { get; set; }
+        public string? ActorIds { get; set; }
         
 
     }

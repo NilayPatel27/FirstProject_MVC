@@ -1,16 +1,21 @@
 ﻿using FirstProject.Data.Services;
+using FirstProject.Hubs;
 using FirstProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FirstProject.Controllers
 {
     public class DirectorsController : Controller
     {
         private readonly IDirectorsService _service;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public DirectorsController(IDirectorsService service)
+
+        public DirectorsController(IDirectorsService service, IHubContext<NotificationHub> hubContext)
         {
             _service = service;
+            _hubContext = hubContext;
         }
 
         public async Task<IActionResult> Index(string search)
@@ -39,6 +44,7 @@ namespace FirstProject.Controllers
             }
 
             await _service.AddAsync(director);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "New director has been added, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
 
@@ -64,6 +70,7 @@ namespace FirstProject.Controllers
             }
 
             await _service.UpdateAsync(id, director);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Director has been updated, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
         //Get:Actors/Delete/1
@@ -81,6 +88,7 @@ namespace FirstProject.Controllers
             if (directorDetails == null) return View("NotFound");
 
             await _service.DeleteAsync(id);
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Director has been deleted, please referesh the page");
             return RedirectToAction(nameof(Index));
         }
     }

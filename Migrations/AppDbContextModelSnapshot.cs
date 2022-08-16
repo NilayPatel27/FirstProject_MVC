@@ -17,7 +17,7 @@ namespace FirstProject.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -38,7 +38,6 @@ namespace FirstProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DOB")
@@ -56,7 +55,6 @@ namespace FirstProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -97,7 +95,6 @@ namespace FirstProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DOB")
@@ -114,7 +111,6 @@ namespace FirstProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -145,12 +141,17 @@ namespace FirstProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ActorIds")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DirectorIds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Language")
                         .HasColumnType("nvarchar(max)");
@@ -175,7 +176,6 @@ namespace FirstProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

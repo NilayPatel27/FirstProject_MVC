@@ -39,7 +39,7 @@
                     <input type="checkbox" id="Gender" />
                 </div>
 
-                <input asp-for="Hobbie" class="form-control" readonly id="Hobbie" />
+                <input asp-for="Hobbie" class="form-control" readonly id="Hobbie" hidden/>
 
                 @foreach (var error in "Action,Adventure,Comedy,Drama,Horror,Sci-Fi,Thriller".Split(','))
                 {
